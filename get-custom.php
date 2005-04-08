@@ -5,7 +5,7 @@ Version: 2.1
 Plugin URI: http://www.coffee2code.com/wp-plugins/
 Author: Scott Reilly
 Author URI: http://www.coffee2code.com
-Description: Easily retrieve and display any custom field values/meta data for posts, inside or outside "the loop".  The power of custom fields gives this plugin the potential to be dozens of plugins.
+Description: Easily retrieve and control the display of any custom field values/meta data for posts, inside or outside "the loop".  The power of custom fields gives this plugin the potential to be dozens of plugins all rolled into one.
 
 =>> Visit the plugin's homepage for more information and latest updates  <<=
 
@@ -45,6 +45,8 @@ Additional arguments used by c2c_get_recent_custom():
    $unique	: Boolean ('true' or 'false') to indicate if each custom field value in the results should be unique
    $order	: Indicates if the results should be sorted in chronological order ('ASC') (the earliest custom field value
    		listed first), or reverse chronological order ('DESC') (the most recent custom field value listed first)
+   $include_static : Boolean ('true' or 'false') to indicate if static posts (i.e. "pages) should be included when
+   		retrieving recent custom values; default is 'true'
    $show_pass_post : Boolean ('true' or 'false') to indicate if password protected posts should be included when 
    		retrieving recent custom values; default is 'false'
 		
@@ -97,6 +99,12 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRA
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+if (!isset($wpdb->posts)) {	// For WP 1.2 compatibility
+	global $tableposts, $tablepostmeta;
+	$wpdb->posts = $tableposts;
+	$wpdb->postmeta = $tablepostmeta;
+}
+
 // This works inside "the loop"
 function c2c_get_custom ($field, $before='', $after='', $none='', $between='', $before_last='') {
 	return c2c__format_custom($field, (array)get_post_custom_values($field), $before, $after, $none, $between, $before_last);
@@ -105,11 +113,6 @@ function c2c_get_custom ($field, $before='', $after='', $none='', $between='', $
 // This works outside "the loop"
 function c2c_get_recent_custom ($field, $before='', $after='', $none='', $between=', ', $before_last='', $limit=1, $unique=false, $order='DESC', $include_static=true, $show_pass_post=false) {
 	global $wpdb;
-	if (!isset($wpdb->posts)) {
-		global $tableposts, $tablepostmeta;
-		$wpdb->posts = $tableposts;
-		$wpdb->postmeta = $tablepostmeta;
-	}
 	if (empty($between)) $limit = 1;
 	if ($order != 'ASC') $order = 'DESC';
 	$now = current_time('mysql');
