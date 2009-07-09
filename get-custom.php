@@ -1,31 +1,45 @@
 <?php
 /*
 Plugin Name: Get Custom Field Values
-Version: 2.1
-Plugin URI: http://www.coffee2code.com/wp-plugins/
+Version: 2.5
+Plugin URI: http://coffee2code.com/wp-plugins/get-custom-field-values
 Author: Scott Reilly
-Author URI: http://www.coffee2code.com
-Description: Easily retrieve and control the display of any custom field values/meta data for posts, inside or outside "the loop".  The power of custom fields gives this plugin the potential to be dozens of plugins all rolled into one.
+Author URI: http://coffee2code.com
+Description: Easily retrieve and control the display of any custom field values/meta data for posts, inside or outside "the loop".
 
-=>> Visit the plugin's homepage for more information and latest updates  <<=
+The power of custom fields gives this plugin the potential to be dozens of plugins all rolled into one.
+
+This is a simple plugin that allows you to harness the power of custom fields/meta data.  You can define 
+$before and/or $after text/HTML to bookend your results.  If no matching custom field by the name defined 
+in $field was found, nothing gets displayed (including no $before and $after) (unless $none is defined,
+in which case the $none text gets used as if it was the match).  If multiple same-named custom fields for
+a post are defined, only the first will be retrieved unless $between is defined, in which case all are
+returned, with the $between text/HTML joining them).  If $before_last is defined along with $between, then
+the text/HTML in $before_last is used prior to the last item in the list (i.e. if you want to add an "and"
+before the last item).  Head down to the Tip & Examples section to see how this plugin can be cast in
+dozens of different ways.
+
+You can filter the custom field values that the plugin would display.  Add filters for 'the_meta' to filter custom 
+field data (see the end of the code file for commented out samples you may wish to include).  You can also add 
+per-meta filters by hooking 'the_meta_$sanitized_field'.  `$sanitized_field is a clean version of the value of
+$field`where everything but alphanumeric and underscore characters have been removed.  So to filter the value of
+the "Related Posts" custom field, you would need to add a filter for 'the_meta_RelatedPosts`.
+
+Compatible with WordPress 2.1+, 2.2+, 2.3+, and 2.5.
+
+=>> Read the accompanying readme.txt file for more information.  Also, visit the plugin's homepage
+=>> for more information and the latest updates
 
 Installation:
 
-1. Download the file http://www.coffee2code.com/wp-plugins/get-custom.zip and unzip it into your 
+1. Download the file http://coffee2code.com/wp-plugins/get-custom.zip and unzip it into your 
 wp-content/plugins/ directory.
--OR-
-Copy and paste the contents of http://www.coffee2code.com/wp-plugins/get-custom.phps into a file 
-called get-custom.php, and put that file into your wp-content/plugins/ directory.
-
-2. Optional: Add filters for 'the_meta' to filter custom field data (see the end of the file for 
-commented out samples you may wish to include).  *NEW*: Add per-meta filters by hooking 'the_meta_$field'
-
-3. Activate the plugin from your WordPress admin 'Plugins' page.
-
-4. Give a post a custom field with a value.
-
-5. Use the function c2c_get_custom somewhere inside "the loop" and/or use the function c2c_get_recent_custom
-outside "the loop"; use 'echo' to display the contents of the custom field; or use as an argument to 
+2. (optional) Add filters for 'the_meta' to filter custom field data (see the end of the file for 
+commented out samples you may wish to include).  And/or add per-meta filters by hooking 'the_meta_$field'
+3. Activate the plugin through the 'Plugins' admin menu in WordPress
+4. Give post(s) a custom field with a value.
+5. Use the function c2c_get_custom() somewhere inside "the loop" and/or use the function c2c_get_recent_custom()
+outside "the loop"; use 'echo' to display the contents of the custom field; or use it as an argument to 
 another function
 
 
@@ -41,11 +55,11 @@ Function arguments:
     		the custom field; $between MUST be set to something other than '' for this to take effect
     
 Additional arguments used by c2c_get_recent_custom():
-   $limit	: The limit to the number of 
+   $limit	: The limit to the number of custom fields to retrieve 
    $unique	: Boolean ('true' or 'false') to indicate if each custom field value in the results should be unique
    $order	: Indicates if the results should be sorted in chronological order ('ASC') (the earliest custom field value
    		listed first), or reverse chronological order ('DESC') (the most recent custom field value listed first)
-   $include_static : Boolean ('true' or 'false') to indicate if static posts (i.e. "pages) should be included when
+   $include_pages : Boolean ('true' or 'false') to indicate if pages should be included when
    		retrieving recent custom values; default is 'true'
    $show_pass_post : Boolean ('true' or 'false') to indicate if password protected posts should be included when 
    		retrieving recent custom values; default is 'false'
@@ -84,7 +98,7 @@ Examples: (visit the plugin's homepage for more examples)
 */
 
 /*
-Copyright (c) 2004-2005 by Scott Reilly (aka coffee2code)
+Copyright (c) 2004-2008 by Scott Reilly (aka coffee2code)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
@@ -99,55 +113,50 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRA
 IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-if (!isset($wpdb->posts)) {	// For WP 1.2 compatibility
-	global $tableposts, $tablepostmeta;
-	$wpdb->posts = $tableposts;
-	$wpdb->postmeta = $tablepostmeta;
-}
-
-// This works inside "the loop"
-function c2c_get_custom ($field, $before='', $after='', $none='', $between='', $before_last='') {
+// Template tag for use inside "the loop" and applies to the currently listed post
+function c2c_get_custom( $field, $before='', $after='', $none='', $between='', $before_last='' ) {
 	return c2c__format_custom($field, (array)get_post_custom_values($field), $before, $after, $none, $between, $before_last);
 } //end c2c_get_custom()
 
-// This works outside "the loop"
-function c2c_get_recent_custom ($field, $before='', $after='', $none='', $between=', ', $before_last='', $limit=1, $unique=false, $order='DESC', $include_static=true, $show_pass_post=false) {
+// Template tag for use outside "the loop" and applies for custom fields regardless of post
+function c2c_get_recent_custom( $field, $before='', $after='', $none='', $between=', ', $before_last='', $limit=1, $unique=false, $order='DESC', $include_pages=true, $show_pass_post=false ) {
 	global $wpdb;
-	if (empty($between)) $limit = 1;
-	if ($order != 'ASC') $order = 'DESC';
-	$now = current_time('mysql');
+	if ( empty($between) ) $limit = 1;
+	if ( $order != 'ASC' ) $order = 'DESC';
 
 	$sql = "SELECT ";
-	if ($unique) $sql .= "DISTINCT ";
+	if ( $unique ) $sql .= "DISTINCT ";
 	$sql .= "meta_value FROM $wpdb->posts AS posts, $wpdb->postmeta AS postmeta ";
 	$sql .= "WHERE posts.ID = postmeta.post_id AND postmeta.meta_key = '$field' ";
-	$sql .= "AND ( posts.post_status = 'publish' ";
-	if ($include_static) $sql .= " OR posts.post_status = 'static' ";
-	$sql .= " ) AND posts.post_date < '$now' ";
-	if (!$show_pass_post) $sql .= "AND posts.post_password = '' ";
+	$sql .= "AND posts.post_status = 'publish' AND ( posts.post_type = 'post' ";
+	if ( $include_pages )
+		$sql .= "OR posts.post_type = 'page' ";
+	$sql .= ') ';
+	if ( !$show_pass_post ) $sql .= "AND posts.post_password = '' ";
 	$sql .= "AND postmeta.meta_value != '' ";
 	$sql .= "ORDER BY posts.post_date $order LIMIT $limit";
 	$results = array(); $values = array();
 	$results = $wpdb->get_results($sql);
-	if (!empty($results))
+	if ( !empty($results) )
 		foreach ($results as $result) { $values[] = $result->meta_value; };
 	return c2c__format_custom($field, $values, $before, $after, $none, $between, $before_last);
 } //end c2c_get_recent_custom()
 
 /* Helper function */
-function c2c__format_custom ($field, $meta_values, $before='', $after='', $none='', $between='', $before_last='') {
+function c2c__format_custom( $field, $meta_values, $before='', $after='', $none='', $between='', $before_last='' ) {
 	$values = array();
-	if (empty($between)) $meta_values = array_slice($meta_values,0,1);
-	if (!empty($meta_values))
+	if ( empty($between) ) $meta_values = array_slice($meta_values,0,1);
+	if ( !empty($meta_values) )
 		foreach ($meta_values as $meta) {
-			$meta = apply_filters("the_meta_$field", $meta);
+			$sanitized_field = preg_replace('/[^a-z0-9_]/i', '', $field);
+			$meta = apply_filters("the_meta_$sanitized_field", $meta);
 			$values[] = apply_filters('the_meta', $meta);
 		}
 
-	if (empty($values)) $value = '';
+	if ( empty($values) ) $value = '';
 	else {
 		$values = array_map('trim', $values);
-		if (empty($before_last)) $value = implode($values, $between);
+		if ( empty($before_last) ) $value = implode($values, $between);
 		else {
 			switch ($size = sizeof($values)) {
 				case 1:
@@ -161,8 +170,8 @@ function c2c__format_custom ($field, $meta_values, $before='', $after='', $none=
 			}
 		}
 	}
-	if (empty($value)) {
-		if (empty($none)) return;
+	if ( empty($value) ) {
+		if ( empty($none) ) return;
 		$value = $none;
 	}
 	return $before . $value . $after;
