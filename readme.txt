@@ -4,8 +4,8 @@ Donate link: http://coffee2code.com/donate
 Tags: custom fields, widget, widgets, meta, extra, data, post, posts, page, pages, coffee2code
 Requires at least: 2.6
 Tested up to: 2.8.1
-Stable tag: 3.0
-Version: 3.0
+Stable tag: 3.0.1
+Version: 3.0.1
 
 Use widgets or template tags to easily retrieve and control the display of any custom field values/meta data for posts or pages.
 
@@ -137,8 +137,7 @@ Optional argument.  Boolean ('true' or 'false') to indicate if password protecte
 	   '',
 	   '" /> : <img alt="[photo]" src="'); ?>`
 
-* Custom 'more...' link text, by replacing `<?php the_content(); ?>` in index.php with this:
-`<?php the_content(c2c_get_custom('more', '<span class="morelink">', '</span>', '(more...)')); ?>`
+* Custom 'more...' link text, by replacing `<?php the_content(); ?>` in index.php with this: `<?php the_content(c2c_get_custom('more', '<span class="morelink">', '</span>', '(more...)')); ?>`
 
 == Frequently Asked Questions ==
 
@@ -159,12 +158,19 @@ Except for `c2c_get_custom()` (which is only available inside "the loop"), yes, 
 * `c2c_get_random_post_custom()` : set the "Post ID" field to the ID of the post you want to reference, check "Pick random value?", and set other values as desired.
 * `c2c_get_recent_custom()` : leave "Post ID" blank and set other values as desired.
 
+= Why can't I see the widget or shortcode builder as mentioned in the features listing? =
+
+Those features are only available if you are running WordPress 2.8 or later.
+
 == Screenshots ==
 
 1. Screenshot of the plugin's widget configuration.
 1. Screenshot of the plugin's shortcode builder.
 
 == Changelog ==
+
+= 3.0.1 =
+* Added additional check to prevent error when running under WP older than 2.8
 
 = 3.0 =
 * Added widget support (widgetized the plugin)

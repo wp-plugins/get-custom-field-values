@@ -6,7 +6,7 @@
  *
  */
 
-if ( !class_exists('GetCustomFieldValuesShortcode') ) :
+if ( !class_exists('GetCustomFieldValuesShortcode') && class_exists('GetCustomWidget') ) :
 class GetCustomFieldValuesShortcode {
 	var $name = 'shortcode_get_custom_field_values';
 	var $shortcode = 'custom_field';
@@ -110,7 +110,7 @@ JS;
 
 } // end class GetCustomFieldValuesShortcode
 
-if ( class_exists('GetCustomFieldValuesShortcode') )
+if ( class_exists('GetCustomFieldValuesShortcode') && class_exists('GetCustomWidget') )
 	add_action( 'init', create_function('', 'new GetCustomFieldValuesShortcode($GLOBALS[\'wp_widget_factory\']->widgets[\'GetCustomWidget\']);' ), 11 );
 
 endif; // end if !class_exists()
