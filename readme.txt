@@ -3,7 +3,7 @@ Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: custom fields, widget, widgets, meta, extra, data, post, posts, page, pages, coffee2code
 Requires at least: 2.6
-Tested up to: 2.8.1
+Tested up to: 2.8.2
 Stable tag: 3.0.1
 Version: 3.0.1
 
@@ -19,14 +19,14 @@ This plugin allows you to harness the power of custom fields/meta data.  Use the
 
 There are six template tags provided by this plugin.  Here they are, with an explanation of when they are appropriate for use:
 
-* c2c_get_custom() : Use this inside "the loop" to retrieve a custom field value for a post
-* c2c_get_current_custom() : This is only available on the permalink post template (single.php) and page template (page.php).  Can be used inside or outside "the loop".  Useful for using custom field to define text you want to include on a post or page's header, footer, or sidebar.
-* c2c_get_post_custom() : Useful when you know the ID of the post whose custom field value you want.
-* c2c_get_random_custom() : Retrieve the value of a random instance of the specified custom field key, as long as the field is associated with a published posted, non-passworded post (you can modify a setting in the plugin file to search passworded posts as well).
-* c2c_get_random_post_custom() : Retrieves the value of random custom field(s) from a post when you know the ID of the post you're interested in.
-* c2c_get_recent_custom() : Retrieves the most recent (according to the associated post's publish date) value of the specified custom field.
+* `c2c_get_custom()` : Use this inside "the loop" to retrieve a custom field value for a post
+* `c2c_get_current_custom()` : This is only available on the permalink post template (single.php) and page template (page.php).  Can be used inside or outside "the loop".  Useful for using custom field to define text you want to include on a post or page's header, footer, or sidebar.
+* `c2c_get_post_custom()` : Useful when you know the ID of the post whose custom field value you want.
+* `c2c_get_random_custom()` : Retrieve the value of a random instance of the specified custom field key, as long as the field is associated with a published posted, non-passworded post (you can modify a setting in the plugin file to search passworded posts as well).
+* `c2c_get_random_post_custom()` : Retrieves the value of random custom field(s) from a post when you know the ID of the post you're interested in.
+* `c2c_get_recent_custom()` : Retrieves the most recent (according to the associated post's publish date) value of the specified custom field.
 
-You can filter the custom field values that the plugin would display.  Add filters for 'the_meta' to filter custom field data (see the end of the code file for commented out samples you may wish to include).  You can also add per-meta filters by hooking 'the_meta_$sanitized_field'.  `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed.  So to filter the value of the "Related Posts" custom field, you would need to add a filter for 'the_meta_RelatedPosts'.
+You can filter the custom field values that the plugin would display.  Add filters for '`the_meta`' to filter custom field data (see the end of the code file for commented out samples you may wish to include).  You can also add per-meta filters by hooking '`the_meta_$sanitized_field`'.  `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed.  So to filter the value of the "Related Posts" custom field, you would need to add a filter for '`the_meta_RelatedPosts`'.
 
 == Installation ==
 
