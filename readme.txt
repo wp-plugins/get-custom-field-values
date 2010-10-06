@@ -1,21 +1,22 @@
 === Get Custom Field Values ===
 Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
-Tags: custom fields, widget, widgets, meta, extra, data, post, posts, page, pages, coffee2code
-Requires at least: 2.6
-Tested up to: 2.8.2
-Stable tag: 3.0.1
-Version: 3.0.1
+Tags: custom fields, widget, widgets, shortcode, meta, extra, data, post, posts, page, pages, coffee2code
+Requires at least: 2.8
+Tested up to: 3.0.1
+Stable tag: 3.2
+Version: 3.2
 
-Use widgets or template tags to easily retrieve and control the display of any custom field values/meta data for posts or pages.
+Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
+
 
 == Description ==
 
-Use widgets or template tags to easily retrieve and control the display of any custom field values/meta data for posts or pages.
+Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
 
 The power of custom fields gives this plugin the potential to be dozens of plugins all rolled into one.
 
-This plugin allows you to harness the power of custom fields/meta data.  Use the "Get Custom Field" widget, the [custom_field] shortcode (which has a sidebar widget to help you build the shortcode), or one of six template tags to retrieve and display custom fields.  Find a custom field for the current post, a specified post, a recent post, or randomly.  And for the custom field values found by the plugin, you may optionally specify text or HTML to appear before and after the results.  If nothing is found, then nothing is display (unless you define text to appear when no results are found).  If multiple results are found, only the first will be displayed unless you specify a string to be used to join the results together (such as ","), in which case all will be returned.  Visit the Examples section to see how this plugin can be cast in dozens of different ways.
+This plugin allows you to harness the power of custom fields/meta data.  Use the "Get Custom Field" widget, the `[custom_field]` shortcode (which has a sidebar widget to help you build the shortcode), or one of six template tags to retrieve and display custom fields.  Find a custom field for the current post, a specified post, a recent post, or randomly.  And for the custom field values found by the plugin, you may optionally specify text or HTML to appear before and after the results.  If nothing is found, then nothing is display (unless you define text to appear when no results are found).  If multiple results are found, only the first will be displayed unless you specify a string to be used to join the results together (such as ","), in which case all will be returned.  Visit the Examples section to see how this plugin can be cast in dozens of different ways.
 
 There are six template tags provided by this plugin.  Here they are, with an explanation of when they are appropriate for use:
 
@@ -28,6 +29,7 @@ There are six template tags provided by this plugin.  Here they are, with an exp
 
 You can filter the custom field values that the plugin would display.  Add filters for '`the_meta`' to filter custom field data (see the end of the code file for commented out samples you may wish to include).  You can also add per-meta filters by hooking '`the_meta_$sanitized_field`'.  `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed.  So to filter the value of the "Related Posts" custom field, you would need to add a filter for '`the_meta_RelatedPosts`'.
 
+
 == Installation ==
 
 1. Unzip `get-custom.zip` inside the `/wp-content/plugins/` directory, or upload `get-custom.php` to `/wp-content/plugins/`
@@ -36,6 +38,7 @@ You can filter the custom field values that the plugin would display.  Add filte
 1. Give post(s) a custom field with a value.
 1. (optional) Go to the Appearance -> Widgets admin page to create one or more 'Get Custom Field' sidebar widgets for your widget-enabled theme.
 1. (optional) Use one of the six template functions provided by this plugin to retrieve the contents of custom fields.  You must 'echo' the result if you wish to display the value on your site.
+
 
 == Template Tags ==
 
@@ -70,13 +73,13 @@ Required argument (only used in `c2c_get_post_custom()`).  The ID of the post fr
 Required argument.  The custom field key of interest.
 
 * `$before`
-Optional argument.  The text to display before all field value(s).
+Optional argument.  The text to display before all the custom field value(s), if any are present (defaults to '').
 
 * `$after`
-Optional argument.  The text to display after all field value(s).
+Optional argument.  The text to display after all the custom field value(s), if any are present (defaults to '')
 
 * `$none`
-Optional argument.  The text to display in place of the field value should no field value exists; if defined as '' and no field value exists, then nothing (including no `$before` and `$after`) gets displayed.
+Optional argument.  The text to display in place of the field value should no field values exist; if defined as '' and no field value exists, then nothing (including no `$before` and `$after`) gets displayed.
 
 * `$between`
 Optional argument.  The text to display between multiple occurrences of the custom field; if defined as '', then only the first instance will be used.
@@ -139,6 +142,7 @@ Optional argument.  Boolean ('true' or 'false') to indicate if password protecte
 
 * Custom 'more...' link text, by replacing `<?php the_content(); ?>` in index.php with this: `<?php the_content(c2c_get_custom('more', '<span class="morelink">', '</span>', '(more...)')); ?>`
 
+
 == Frequently Asked Questions ==
 
 = I added the template tag to my template and the post has the custom field I'm asking for but I don't see anything about it on the page; what gives? =
@@ -156,18 +160,42 @@ Except for `c2c_get_custom()` (which is only available inside "the loop"), yes, 
 * `c2c_get_post_custom()` : set the "Post ID" field to the ID of the post you want to reference and set other values as desired.
 * `c2c_get_random_custom()` : leave "Post ID" blank, check "Pick random value?", and set other values as desired.
 * `c2c_get_random_post_custom()` : set the "Post ID" field to the ID of the post you want to reference, check "Pick random value?", and set other values as desired.
-* `c2c_get_recent_custom()` : leave "Post ID" blank and set other values as desired.
+* `c2c_get_recent_custom()` : leave "Post ID" blank, leave "Pick random value?" unchecked, and set other values as desired.
 
-= Why can't I see the widget or shortcode builder as mentioned in the features listing? =
+= I don't plan on using the shortcode builder when writing or editing a post or page, so how do I get rid of it? =
 
-Those features are only available if you are running WordPress 2.8 or later.
+When on the write or edit admin pages for a page or post, find the "Screen Options" link near the upper right-hand corner of the page.  Clicking it slides down a panel of options.  In the "Show on screen" section, uncheck the checkbox labeled "Get Custom Field Values - Shortcode".  This must be done separately for posts and for pages if you want the shortcode builder disabled for both sections.
+
 
 == Screenshots ==
 
 1. Screenshot of the plugin's widget configuration.
 1. Screenshot of the plugin's shortcode builder.
 
+
 == Changelog ==
+
+= 3.2 =
+* Fix 'Send to Editor' for shortcode builder
+* (widget) Full re-implementation using C2C_Widget_002
+* (widget) Full localization support
+* (widget) Fix bug with saving widget
+* (shortcode) Output JS in footer instead of head
+* Add if(!function_exists()) checks around all functions
+* Change description
+* Add PHPDoc documentation
+* Remove docs from top of plugin file (all that and more are in readme.txt)
+* Add package info to top of file
+* Note compatibility with WP 3.0+
+* Drop compatibility with version of WP older than 2.8
+* Minor code reformatting (spacing)
+* Add Upgrade Notice section to readme.txt
+* Remove trailing whitespace
+* Update copyright date
+* Update screenshots
+
+= 3.1 =
+* (Not publicly released.)
 
 = 3.0.1 =
 * Added additional check to prevent error when running under WP older than 2.8
@@ -228,3 +256,9 @@ the specified custom field.
 
 = 0.9 =
 * Initial release
+
+
+== Upgrade Notice ==
+
+= 3.2 =
+Recommended update! Highlights: fixes bug with shortcode builder; fixes bug with saving widget; misc non-functionality documentation and formatting tweaks; verified WP 3.0 compatibility; dropped support for versions of WP older than 2.8.
