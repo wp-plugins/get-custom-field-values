@@ -2,25 +2,27 @@
 /*
  * Get Custom Field Values plugin shortcode code
  *
- * Copyright (c) 2004-2010 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2004-2011 by Scott Reilly (aka coffee2code)
  *
  */
 
-if ( !class_exists( 'GetCustomFieldValuesShortcode' ) && class_exists( 'GetCustomWidget' ) ) :
-class GetCustomFieldValuesShortcode {
+if ( ! class_exists( 'c2c_GetCustomFieldValuesShortcode' ) && class_exists( 'c2c_GetCustomWidget' ) ) :
+class c2c_GetCustomFieldValuesShortcode {
 	var $name = 'shortcode_get_custom_field_values';
 	var $shortcode = 'custom_field';
 	var $title = '';
 	var $widget_handler = '';
 	var $widget_base = '';
 
-	function GetCustomFieldValuesShortcode( $widget_handler ) {
+	function c2c_GetCustomFieldValuesShortcode( $widget_handler ) {
 		$this->title = __( 'Get Custom Field Values - Shortcode' );
 		$this->widget_handler = $widget_handler;
 		$this->widget_base = 'widget-' . $this->widget_handler->id_base;
-		add_shortcode($this->shortcode, array( &$this, 'shortcode' ) );
-		add_action('admin_menu', array( &$this, 'admin_menu' ) );
-		add_action('admin_footer', array( &$this, 'admin_js' ) );
+		$this->shortcode = apply_filters( 'c2c_get_custom_field_values_shortcode', $this->shortcode );
+
+		add_shortcode( $this->shortcode, array( &$this, 'shortcode' ) );
+		add_action( 'admin_menu',        array( &$this, 'admin_menu' ) );
+		add_action( 'admin_footer',      array( &$this, 'admin_js' ) );
 	}
 
 	function shortcode( $atts, $content = null ) {
@@ -56,7 +58,7 @@ class GetCustomFieldValuesShortcode {
 
 	function admin_js() {
 		global $pagenow;
-		if ( !in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) )
+		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) )
 			return;
 
 		echo <<<JS
@@ -113,10 +115,10 @@ JS;
 		echo '</p>';
 	}
 
-} // end class GetCustomFieldValuesShortcode
+} // end class c2c_GetCustomFieldValuesShortcode
 
-if ( class_exists( 'GetCustomFieldValuesShortcode' ) && class_exists( 'GetCustomWidget' ) )
-	add_action( 'init', create_function('', 'new GetCustomFieldValuesShortcode($GLOBALS[\'wp_widget_factory\']->widgets[\'GetCustomWidget\']);' ), 11 );
+if ( class_exists( 'c2c_GetCustomFieldValuesShortcode' ) && class_exists( 'c2c_GetCustomWidget' ) )
+	add_action( 'init', create_function('', 'new c2c_GetCustomFieldValuesShortcode($GLOBALS[\'wp_widget_factory\']->widgets[\'c2c_GetCustomWidget\']);' ), 11 );
 
 endif; // end if !class_exists()
 ?>

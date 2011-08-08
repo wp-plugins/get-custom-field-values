@@ -2,25 +2,25 @@
 /**
  * @package C2C_Widget
  * @author Scott Reilly
- * @version 002
+ * @version 004
  */
 /*
  * C2C_Widget widget code
  *
- * Copyright (c) 2010 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2010-2011 by Scott Reilly (aka coffee2code)
  *
  */
 
-if ( class_exists( 'WP_Widget' ) && !class_exists( 'C2C_Widget_002' ) ) :
-class C2C_Widget_002 extends WP_Widget {
-	var $widget_id = '';
-	var $widget_file = '';
-	var $textdomain = '';
-	var $title = '';
-	var $description = '';
-	var $hook_prefix = '';
-	var $config = array();
-	var $defaults = array();
+if ( class_exists( 'WP_Widget' ) && !class_exists( 'C2C_Widget_004' ) ) :
+class C2C_Widget_004 extends WP_Widget {
+	protected $widget_id = '';
+	protected $widget_file = '';
+	protected $textdomain = '';
+	protected $title = '';
+	protected $description = '';
+	protected $hook_prefix = '';
+	protected $config = array();
+	protected $defaults = array();
 
 	/**
 	 * Constructor
@@ -30,7 +30,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param array $control_ops Array of options to control appearance of widget: width, height, id_base
 	 * @param string $textdomain Textdomain; leave as null to set it as same value as $widget_id
 	 */
-	function C2C_Widget_002( $widget_id, $widget_file, $control_ops = array(), $textdomain = null ) {
+	public function C2C_Widget_004( $widget_id, $widget_file, $control_ops = array(), $textdomain = null ) {
 		$this->widget_id = $widget_id;
 		$this->widget_file = $widget_file;
 		if ( !$textdomain )
@@ -68,7 +68,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param array $instance Widget instance
 	 * @return void (Text is echoed.)
 	 */
-	function widget( $args, $instance ) {
+	public function widget( $args, $instance ) {
 		extract( $args );
 
 		/* Settings */
@@ -94,10 +94,10 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param array $old_instance Old instance
 	 * @return array Updated instance
 	 */
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		foreach ( array_keys( $this->config ) as $key )
-			$instance[$key] = $new_instance[$key];
+			$instance[$key] = isset( $new_instance[$key] ) ? $new_instance[$key] : '';
 		return $this->validate( $instance );
 	}
 
@@ -107,7 +107,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param array|null $exclude_options (optional) The options that should not be drawn in the form.
 	 * @return void
 	 */
-	function form( $instance, $exclude_options = null ) {
+	public function form( $instance, $exclude_options = null ) {
 		$exclude_options = apply_filters( $this->get_hook( 'excluded_form_options' ), $exclude_options );
 		$instance = wp_parse_args( (array) $instance, $this->defaults );
 		$i = $j = 0;
@@ -159,7 +159,8 @@ class C2C_Widget_002 extends WP_Widget {
 			$attribs = "name='$input_name' id='$input_id' " . $this->config[$opt]['input_attributes'];
 			if ( $label && ( $input != 'multiselect' ) )
 				echo "<label for='$input_id'>$label:</label> ";
-			if ( $input == 'textarea' ) {
+			if ( $input == '' ) {
+			} elseif ( $input == 'textarea' ) {
 				echo "<textarea $attribs class='widefat'>" . $value . '</textarea>';
 			} elseif ( $input == 'select' ) {
 				echo "<select $attribs>";
@@ -198,7 +199,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	function load_textdomain() {
+	public function load_textdomain() {
 		$subdir = '/lang';
 		load_plugin_textdomain( $this->textdomain, false, basename( dirname( $this->widget_file ) ) . $subdir );
 	}
@@ -209,7 +210,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param string $hook The name of a hook, to be made plugin-specific.
 	 * @return string The plugin-specific version of the hook name.
 	 */
-	function get_hook( $hook ) {
+	public function get_hook( $hook ) {
 		return $this->hook_prefix . '_' . $hook;
 	}
 
@@ -227,7 +228,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 *
 	 * @return void
 	 */
-	function load_config() {
+	public function load_config() {
 		die( 'Function load_config() must be overridden in sub-class.' );
 	}
 
@@ -241,7 +242,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param array $settings Widget settings
 	 * @return void (Text is echoed.)
 	 */
-	function widget_body( $args, $instance, $settings ) {
+	public function widget_body( $args, $instance, $settings ) {
 		die( 'Function widget_body() must be overridden in sub-class.' );
 	}
 
@@ -253,7 +254,7 @@ class C2C_Widget_002 extends WP_Widget {
 	 * @param array $instance Array of widget instance values
 	 * @return array The filtered array of widget instance values
 	 */
-	function validate( $instance ) {
+	public function validate( $instance ) {
 		return $instance;
 	}
 } // end class C2C_Widget

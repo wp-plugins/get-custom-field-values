@@ -3,9 +3,9 @@ Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: custom fields, widget, widgets, shortcode, meta, extra, data, post, posts, page, pages, coffee2code
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 3.2
-Version: 3.2
+Tested up to: 3.2
+Stable tag: 3.3
+Version: 3.3
 
 Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
 
@@ -29,15 +29,51 @@ There are six template tags provided by this plugin.  Here they are, with an exp
 
 You can filter the custom field values that the plugin would display.  Add filters for '`the_meta`' to filter custom field data (see the end of the code file for commented out samples you may wish to include).  You can also add per-meta filters by hooking '`the_meta_$sanitized_field`'.  `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed.  So to filter the value of the "Related Posts" custom field, you would need to add a filter for '`the_meta_RelatedPosts`'.
 
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/get-custom-field-values/) | [Author Homepage](http://coffee2code.com)
+
+
+== Screenshots ==
+
+1. Screenshot of the plugin's widget configuration.
+1. Screenshot of the plugin's shortcode builder.
+
 
 == Installation ==
 
-1. Unzip `get-custom.zip` inside the `/wp-content/plugins/` directory, or upload `get-custom.php` to `/wp-content/plugins/`
+1. Unzip `get-custom.zip` inside the `/wp-content/plugins/`  directory (or install via the built-in WordPress plugin installer)
 1. (optional) Add filters for 'the_meta' to filter custom field data (see the end of the plugin file for commented out samples you may wish to include).  And/or add per-meta filters by hooking 'the_meta_$field'
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
 1. Give post(s) a custom field with a value.
 1. (optional) Go to the Appearance -> Widgets admin page to create one or more 'Get Custom Field' sidebar widgets for your widget-enabled theme.
 1. (optional) Use one of the six template functions provided by this plugin to retrieve the contents of custom fields.  You must 'echo' the result if you wish to display the value on your site.
+
+
+== Frequently Asked Questions ==
+
+= I added the template tag to my template and the post has the custom field I'm asking for but I don't see anything about it on the page; what gives? =
+
+Did you `echo` the return value of the function, e.g. `<?php echo c2c_get_custom('mood', 'My mood: '); ?>`
+
+= Can I achieve all the functionality allowed by the six template functions using the widget? =
+
+Except for `c2c_get_custom()` (which is only available inside "the loop"), yes, by carefully setting the appropriate settings for the widget.
+
+= How do I configure the widget to match up with the template functions? =
+
+* `c2c_get_custom()` : not achievable via the widget
+* `c2c_get_current_custom()` : set the "Post ID" field to `0`, leave "Pick random value?" unchecked, and set other values as desired.
+* `c2c_get_post_custom()` : set the "Post ID" field to the ID of the post you want to reference and set other values as desired.
+* `c2c_get_random_custom()` : leave "Post ID" blank, check "Pick random value?", and set other values as desired.
+* `c2c_get_random_post_custom()` : set the "Post ID" field to the ID of the post you want to reference, check "Pick random value?", and set other values as desired.
+* `c2c_get_recent_custom()` : leave "Post ID" blank, leave "Pick random value?" unchecked, and set other values as desired.
+
+= I don't plan on using the shortcode builder when writing or editing a post or page, so how do I get rid of it? =
+
+When on the write or edit admin pages for a page or post, find the "Screen Options" link near the upper right-hand corner of the page.  Clicking it slides down a panel of options.  In the "Show on screen" section, uncheck the checkbox labeled "Get Custom Field Values - Shortcode".  This must be done separately for posts and for pages if you want the shortcode builder disabled for both sections.
+
+= Can I move the shortcode builder box because it is way down at the bottom of the right sidebar when I create/edit posts? =
+
+Yes, any of the boxes on the page when creating/editing posts can be rearranged by dragging and dropping the box name.  At the very top of the shortcode builder box the cursor will turn into a four-way array indicating you can click to drag that box.  You can move it under the post content box, or higher up on the right side.
 
 
 == Template Tags ==
@@ -55,7 +91,7 @@ Template tag for use on permalink (aka single) page templates for posts and page
 * `<?php function c2c_get_post_custom( $post_id, $field, $before='', $after='', $none='', $between='', $before_last='' ) ?>`                                                           
 Template tag for use when you know the ID of the post you're interested in.
 
-* `<?php function c2c_get_random_custom( $field, $before='', $after='', $none='' ) ?>`
+* `<?php function c2c_get_random_custom( $field, $before='', $after='', $none='', $limit=1, $between='', $before_last='' ) ?>`
 Template tag for use to retrieve a random custom field value.
 
 * `<?php function c2c_get_random_post_custom( $post_id, $field, $limit=1, $before='', $after='', $none='', $between='', $before_last='' ) ?>`
@@ -90,7 +126,7 @@ Optional argument.  The text to display between the next-to-last and last items 
 Arguments that only apply to `c2c_get_recent_custom()`:
 
 * `$limit`
-Optional argument.  The limit to the number of custom fields to retrieve. (also used by `c2c_get_random_post_custom()`)
+Optional argument.  The limit to the number of custom fields to retrieve. (also used by `c2c_get_random_custom` and `c2c_get_random_post_custom()`)
 
 * `$unique`
 Optional argument.  Boolean ('true' or 'false') to indicate if each custom field value in the results should be unique.
@@ -143,37 +179,55 @@ Optional argument.  Boolean ('true' or 'false') to indicate if password protecte
 * Custom 'more...' link text, by replacing `<?php the_content(); ?>` in index.php with this: `<?php the_content(c2c_get_custom('more', '<span class="morelink">', '</span>', '(more...)')); ?>`
 
 
-== Frequently Asked Questions ==
+== Shortcode ==
 
-= I added the template tag to my template and the post has the custom field I'm asking for but I don't see anything about it on the page; what gives? =
+This plugin provides one shortcode that can be used within the body of a post or page.  The shortcode is accompanied by a shortcode builder (see Screenshots) that presents a form for easily creating a shortcode.  However, here's the documentation for the shortcode and its supported attributes.
 
-Did you `echo` the return value of the function, e.g. `<?php echo c2c_get_custom('mood', 'My mood: '); ?>`
+The name of the shortcode can be changed via the filter 'c2c_get_custom_field_values_shortcode' (though making this customization is only recommended for before your first use of the shortcode, since changing to a new name will cause the shortcodes previously defined using the older name to no longer work).
 
-= Can I achieve all the functionality allowed by the six template functions using the widget? =
+= custom_field =
 
-Except for `c2c_get_custom()` (which is only available inside "the loop"), yes, by carefully setting the appropriate settings for the widget.
+The only shortcode provided by this plugin is named `custom_field`.  It is a self-closing tag, meaning that it is not meant to encapsulate text.  Except for 'field', all attributes are optional, though you'll likely need to provide a couple to achieve your desired result.
 
-= How do I configure the widget to match up with the template functions? =
+Attributes:
 
-* `c2c_get_custom()` : not achievable via the widget
-* `c2c_get_current_custom()` : set the "Post ID" field to `0`, leave "Pick random value?" unchecked, and set other values as desired.
-* `c2c_get_post_custom()` : set the "Post ID" field to the ID of the post you want to reference and set other values as desired.
-* `c2c_get_random_custom()` : leave "Post ID" blank, check "Pick random value?", and set other values as desired.
-* `c2c_get_random_post_custom()` : set the "Post ID" field to the ID of the post you want to reference, check "Pick random value?", and set other values as desired.
-* `c2c_get_recent_custom()` : leave "Post ID" blank, leave "Pick random value?" unchecked, and set other values as desired.
+* field : (string) The name of the custom field key whose value you wish to have displayed.
+* this_post : (boolean) Get the custom field value for the post containing this shortcode? Takes precedence over post_id attribute. Specify `1` (for true) or `0` for false. Default is `0`.
+* post_id : (integer) ID of post whose custom field's value you want to display. Leave blank to search for the custom field in any post. Use `0` to indicate it should only work on the permalink page for a page/post.
+* random : (boolean) Pick random value? Specify `1` (for true) or `0` for false. Default is `0`.
+* limit : (integer) The number of custom field items to list. Only applies if Post ID is empty and "Pick random value?" is unchecked. Use `0` to indicate no limit. Default is `0`.
+* before : (string) Text to display before the custom field.
+* after  : (string) Text to display after the custom field.
+* none : (string) Text to display if no matching custom field is found (or it has no value). Leave this blank if you don't want anything to display when no match is found.
+* between : (string) Text to display between custom field items if more than one are being shown. Default is ', '.
+* before_last : (string) Text to display between the second to last and last custom field items if more than one are being shown.
 
-= I don't plan on using the shortcode builder when writing or editing a post or page, so how do I get rid of it? =
+Examples:
 
-When on the write or edit admin pages for a page or post, find the "Screen Options" link near the upper right-hand corner of the page.  Clicking it slides down a panel of options.  In the "Show on screen" section, uncheck the checkbox labeled "Get Custom Field Values - Shortcode".  This must be done separately for posts and for pages if you want the shortcode builder disabled for both sections.
+* Get list of sizes for the current post
+`[custom_field field="size" limit="0" between=", " this_post="1" /]`
 
+* Get random random quote
+`[custom_field field="quote" limit="1" random="1" /]`
 
-== Screenshots ==
-
-1. Screenshot of the plugin's widget configuration.
-1. Screenshot of the plugin's shortcode builder.
+* Get 3 most recent books read
+`[custom_field field="book" limit="3" before="Recently read books: " /]`
 
 
 == Changelog ==
+
+= 3.3 =
+* Modify c2c_get_random_custom() to support returning multiple random values (function now accepts additional arguments)
+* Rename widget class from 'GetCustomWidget' to 'c2c_GetCustomWidget'
+* Enable shortcode support for custom field values
+* Update widget framework to v004
+* Document shortcode
+* Note compatibility through WP 3.2+
+* Minor code formatting changes (spacing)
+* Minor readme.txt formatting changes
+* Add plugin homepage and author links in description in readme.txt
+* Add .pot
+* Update copyright date (2011)
 
 = 3.2 =
 * Fix 'Send to Editor' for shortcode builder
@@ -260,5 +314,8 @@ the specified custom field.
 
 == Upgrade Notice ==
 
+= 3.3 =
+Recommended update! added support to c2c_get_random_custom() to return multiple random values; enabled shortcode support for custom fields; noted compatibility through WP 3.2; and more.
+
 = 3.2 =
-Recommended update! Highlights: fixes bug with shortcode builder; fixes bug with saving widget; misc non-functionality documentation and formatting tweaks; verified WP 3.0 compatibility; dropped support for versions of WP older than 2.8.
+Recommended update! Highlights: fixed bug with shortcode builder; fixed bug with saving widget; misc non-functionality documentation and formatting tweaks; verified WP 3.0 compatibility; dropped support for versions of WP older than 2.8.

@@ -1,27 +1,27 @@
 <?php
 /**
- * @package GetCustomWidget
+ * @package c2c_GetCustomWidget
  * @author Scott Reilly
- * @version 001
+ * @version 002
  */
 /*
  * Get Custom Field Values plugin widget code
  *
- * Copyright (c) 2004-2010 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2004-2011 by Scott Reilly (aka coffee2code)
  *
  */
 
-if ( !class_exists( 'GetCustomWidget' ) ) :
+if ( ! class_exists( 'c2c_GetCustomWidget' ) ) :
 
 require_once( 'c2c-widget.php' );
 
-class GetCustomWidget extends C2C_Widget_002 {
+class c2c_GetCustomWidget extends C2C_Widget_004 {
 
 	/**
 	 * Constructor
 	 */
-	function GetCustomWidget() {
-		$this->C2C_Widget_002( 'get-custom', __FILE__, array( 'width' => 300 ) );
+	function c2c_GetCustomWidget() {
+		$this->C2C_Widget_004( 'get-custom', __FILE__, array( 'width' => 300 ) );
 		add_filter( $this->get_hook( 'excluded_form_options' ), array( &$this, 'excluded_form_options' ) );
 	}
 
@@ -31,7 +31,7 @@ class GetCustomWidget extends C2C_Widget_002 {
 	 * @return void
 	 */
 	function load_config() {
-		$this->title = __( 'Get Custom Field', $this->textdomain );
+		$this->title       = __( 'Get Custom Field', $this->textdomain );
 		$this->description = __( 'A list of custom field value(s) from posts or pages.', $this->textdomain );
 
 		$this->config = array(
@@ -51,9 +51,9 @@ class GetCustomWidget extends C2C_Widget_002 {
 					'help' => __( 'ID of post whose custom field\'s value you want to display. Leave blank to search for the custom field in any post. Use <code>0</code> to indicate it should only work on the permalink page for a page/post.', $this->textdomain ) ),
 			'random' =>	array( 'input' => 'checkbox', 'default' => false,
 					'label' => __( 'Pick random value?', $this->textdomain ) ),
-			'limit' => array( 'input' => 'short_text', 'default' => 1,
+			'limit' => array( 'input' => 'short_text', 'default' => 0,
 					'label' => __( 'Limit', $this->textdomain ),
-					'help' => __( 'The number of custom field items to list. Only applies if Post ID is empty and "Pick random value?" is unchecked.', $this->textdomain ) ),
+					'help' => __( 'The number of custom field items to list. Only applies if Post ID is empty and "Pick random value?" is unchecked. Use 0 to indicate no limit.', $this->textdomain ) ),
 			'before' => array( 'input' => 'text', 'default' => '',
 					'label' => __( 'Before text', $this->textdomain ),
 					'help' => __( 'Text to display before the custom field.', $this->textdomain ) ),
@@ -88,6 +88,9 @@ class GetCustomWidget extends C2C_Widget_002 {
 		if ( '0' === $post_id )
 			$post_id = 'current';
 
+		$post_id = intval( $post_id );
+		$limit   = intval( $limit );
+
 		if ( $post_id ) {
 			if ( 'current' == $post_id )
 				echo c2c_get_current_custom( $field, $before, $after, $none, $between, $before_last );
@@ -97,7 +100,7 @@ class GetCustomWidget extends C2C_Widget_002 {
 				echo c2c_get_post_custom( $post_id, $field, $before, $after, $none, $between, $before_last );
 		} else {
 			if ( $random )
-				echo c2c_get_random_custom( $field, $before, $after, $none );
+				echo c2c_get_random_custom( $field, $before, $after, $none, $limit, $between, $before_last );
 			else
 				echo c2c_get_recent_custom( $field, $before, $after, $none, $between, $before_last, $limit );
 		}
@@ -127,7 +130,10 @@ class GetCustomWidget extends C2C_Widget_002 {
 	}
 } // end class
 
-add_action( 'widgets_init', create_function('', 'register_widget(\'GetCustomWidget\');') );
+function register_c2c_GetCustomWidget() {
+	register_widget( 'c2c_GetCustomWidget' );
+}
+add_action( 'widgets_init', 'register_c2c_GetCustomWidget' );
 
 endif;
 ?>
