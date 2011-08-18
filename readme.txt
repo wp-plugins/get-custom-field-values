@@ -4,8 +4,8 @@ Donate link: http://coffee2code.com/donate
 Tags: custom fields, widget, widgets, shortcode, meta, extra, data, post, posts, page, pages, coffee2code
 Requires at least: 2.8
 Tested up to: 3.2.1
-Stable tag: 3.3
-Version: 3.3
+Stable tag: 3.3.1
+Version: 3.3.1
 
 Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
 
@@ -216,6 +216,10 @@ Examples:
 
 == Changelog ==
 
+= 3.3.1 =
+* Fix fatal shortcode bug by updating widget framework to v005 to make a protected class variable public
+* Update widget version to 003
+
 = 3.3 =
 * Modify c2c_get_random_custom() to support returning multiple random values (function now accepts additional arguments)
 * Rename widget class from 'GetCustomWidget' to 'c2c_GetCustomWidget'
@@ -313,6 +317,9 @@ the specified custom field.
 
 
 == Upgrade Notice ==
+
+= 3.3.1 =
+Critical bugfix release (if using shortcode): fixed fatal shortcode bug
 
 = 3.3 =
 Recommended update! added support to c2c_get_random_custom() to return multiple random values; enabled shortcode support for custom fields; noted compatibility through WP 3.2; and more.

@@ -2,7 +2,7 @@
 /**
  * @package c2c_GetCustomWidget
  * @author Scott Reilly
- * @version 002
+ * @version 003
  */
 /*
  * Get Custom Field Values plugin widget code
@@ -15,13 +15,13 @@ if ( ! class_exists( 'c2c_GetCustomWidget' ) ) :
 
 require_once( 'c2c-widget.php' );
 
-class c2c_GetCustomWidget extends C2C_Widget_004 {
+class c2c_GetCustomWidget extends C2C_Widget_005 {
 
 	/**
 	 * Constructor
 	 */
 	function c2c_GetCustomWidget() {
-		$this->C2C_Widget_004( 'get-custom', __FILE__, array( 'width' => 300 ) );
+		$this->C2C_Widget_005( 'get-custom', __FILE__, array( 'width' => 300 ) );
 		add_filter( $this->get_hook( 'excluded_form_options' ), array( &$this, 'excluded_form_options' ) );
 	}
 

@@ -2,7 +2,7 @@
 /**
  * @package C2C_Widget
  * @author Scott Reilly
- * @version 004
+ * @version 005
  */
 /*
  * C2C_Widget widget code
@@ -11,16 +11,18 @@
  *
  */
 
-if ( class_exists( 'WP_Widget' ) && !class_exists( 'C2C_Widget_004' ) ) :
-class C2C_Widget_004 extends WP_Widget {
-	protected $widget_id = '';
+if ( class_exists( 'WP_Widget' ) && ! class_exists( 'C2C_Widget_005' ) ) :
+class C2C_Widget_005 extends WP_Widget {
+
+	public $config         = array();
+
+	protected $widget_id   = '';
 	protected $widget_file = '';
-	protected $textdomain = '';
-	protected $title = '';
+	protected $textdomain  = '';
+	protected $title       = '';
 	protected $description = '';
 	protected $hook_prefix = '';
-	protected $config = array();
-	protected $defaults = array();
+	protected $defaults    = array();
 
 	/**
 	 * Constructor
@@ -30,10 +32,10 @@ class C2C_Widget_004 extends WP_Widget {
 	 * @param array $control_ops Array of options to control appearance of widget: width, height, id_base
 	 * @param string $textdomain Textdomain; leave as null to set it as same value as $widget_id
 	 */
-	public function C2C_Widget_004( $widget_id, $widget_file, $control_ops = array(), $textdomain = null ) {
+	public function C2C_Widget_005( $widget_id, $widget_file, $control_ops = array(), $textdomain = null ) {
 		$this->widget_id = $widget_id;
 		$this->widget_file = $widget_file;
-		if ( !$textdomain )
+		if ( ! $textdomain )
 			$textdomain = $widget_id;
 		$this->textdomain = $textdomain;
 
@@ -54,7 +56,7 @@ class C2C_Widget_004 extends WP_Widget {
 			'classname' => 'widget_' . $this->widget_id,
 			'description' => $this->description
 		);
-		$widget_ops = apply_filters( $this->get_hook( 'widget_ops' ), $widget_ops );
+		$widget_ops  = apply_filters( $this->get_hook( 'widget_ops' ), $widget_ops );
 		$control_ops = apply_filters( $this->get_hook( 'control_ops' ), $control_ops );
 		$this->WP_Widget( $this->widget_id, $this->title, $widget_ops, $control_ops );
 	}
@@ -79,7 +81,7 @@ class C2C_Widget_004 extends WP_Widget {
 
 		echo $before_widget;
 
-		if ( !empty( $title ) )
+		if ( ! empty( $title ) )
 			echo $before_title . $title . $after_title;
 
 		$this->widget_body( $args, $instance, $settings );
@@ -116,7 +118,7 @@ class C2C_Widget_004 extends WP_Widget {
 				continue;
 
 			foreach ( array( 'datatype', 'default', 'help', 'input', 'input_attributes', 'label', 'no_wrap', 'options' ) as $attrib ) {
-				if ( !isset( $this->config[$opt][$attrib] ) )
+				if ( ! isset( $this->config[$opt][$attrib] ) )
 					$this->config[$opt][$attrib] = '';
 			}
 
@@ -125,7 +127,8 @@ class C2C_Widget_004 extends WP_Widget {
 			if ( $input == 'none' ) {
 				if ( $opt == 'more' ) {
 					$i++; $j++;
-					echo "<p>$label</p>";
+//					echo "<h5>$label</h5>";
+					echo "<p><a style='display:none;' class='widget-group-link widget-group-link-$i' href='#'>$label &raquo;</a></p>";
 					echo "<div class='widget-group widget-group-$i'>";
 				} elseif ( $opt == 'endmore' ) {
 					$j--;
@@ -137,12 +140,12 @@ class C2C_Widget_004 extends WP_Widget {
 				// Do nothing since it needs the values as an array
 				$value = (array) $value;
 			} elseif ( $this->config[$opt]['datatype'] == 'array' ) {
-				if ( !is_array( $value ) )
+				if ( ! is_array( $value ) )
 					$value = '';
 				else
 					$value = implode( ( 'textarea' == $input ? "\n" : ', ' ), $value );
 			} elseif ( $this->config[$opt]['datatype'] == 'hash' ) {
-				if ( !is_array( $value ) )
+				if ( ! is_array( $value ) )
 					$value = '';
 				else {
 					$new_value = '';
