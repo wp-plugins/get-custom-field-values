@@ -2,12 +2,12 @@
 /**
  * @package c2c_GetCustomWidget
  * @author Scott Reilly
- * @version 003
+ * @version 004
  */
 /*
  * Get Custom Field Values plugin widget code
  *
- * Copyright (c) 2004-2011 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2004-2012 by Scott Reilly (aka coffee2code)
  *
  */
 
@@ -84,14 +84,15 @@ class c2c_GetCustomWidget extends C2C_Widget_005 {
 		extract( $args );
 		extract( $settings );
 
-		// Determine, based on inputs given, which template tag to use.
-		if ( '0' === $post_id )
+		// Bail early if no field was specified
+		if ( empty( $field ) )
+			return;
+
+		if ( 0 === $post_id )
 			$post_id = 'current';
 
-		$post_id = intval( $post_id );
-		$limit   = intval( $limit );
-
-		if ( $post_id ) {
+		// Determine, based on inputs given, which template tag to use.
+		if ( ! empty( $post_id ) ) {
 			if ( 'current' == $post_id )
 				echo c2c_get_current_custom( $field, $before, $after, $none, $between, $before_last );
 			elseif ( $random )
@@ -113,7 +114,12 @@ class c2c_GetCustomWidget extends C2C_Widget_005 {
 	 * @return array The filtered array of widget instance values
 	 */
 	function validate( $instance ) {
-		$instance['field'] = trim( $instance['field'] );
+		$instance['field']   = trim( $instance['field'] );
+		$instance['limit']   = intval( trim( $instance['limit'] ) );
+		$instance['random']  = intval( trim( $instance['random'] ) );
+		$instance['post_id'] = trim( $instance['post_id'] );
+		if ( '' != $instance['post_id'] )
+			$instance['post_id'] = intval( $instance['post_id'] );
 		return $instance;
 	}
 

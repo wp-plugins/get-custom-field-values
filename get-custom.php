@@ -2,17 +2,18 @@
 /**
  * @package Get_Custom_Field_Values
  * @author Scott Reilly
- * @version 3.3.1
+ * @version 3.3.2
  */
 /*
 Plugin Name: Get Custom Field Values
-Version: 3.3.1
+Version: 3.3.2
 Plugin URI: http://coffee2code.com/wp-plugins/get-custom-field-values/
 Author: Scott Reilly
-Author URI: http://coffee2code.com
+Author URI: http://coffee2code.com/
+Domain Path: /lang/
 Description: Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
 
-Compatible with WordPress 2.8+, 2.9+, 3.0+, 3.1+, 3.2+.
+Compatible with WordPress 2.8+, 2.9+, 3.0+, 3.1+, 3.2+, 3.3+.
 
 =>> Read the accompanying readme.txt file for instructions and documentation.
 =>> Also, visit the plugin's homepage for additional information and updates.
@@ -41,11 +42,10 @@ TODO:
 	* Support name filters to run against found custom fields
 	  c2c_get_custom( 'colors', array( 'filters' => array( 'strtoupper', 'make_clickable' ) ) )
 	* Since it's shifting to args array, might as well support 'echo'
-
 */
 
 /*
-Copyright (c) 2004-2011 by Scott Reilly (aka coffee2code)
+Copyright (c) 2004-2012 by Scott Reilly (aka coffee2code)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
 files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy,

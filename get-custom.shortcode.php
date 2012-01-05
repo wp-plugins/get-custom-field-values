@@ -2,7 +2,7 @@
 /*
  * Get Custom Field Values plugin shortcode code
  *
- * Copyright (c) 2004-2011 by Scott Reilly (aka coffee2code)
+ * Copyright (c) 2004-2012 by Scott Reilly (aka coffee2code)
  *
  */
 
@@ -20,9 +20,9 @@ class c2c_GetCustomFieldValuesShortcode {
 		$this->widget_base = 'widget-' . $this->widget_handler->id_base;
 		$this->shortcode = apply_filters( 'c2c_get_custom_field_values_shortcode', $this->shortcode );
 
-		add_shortcode( $this->shortcode, array( &$this, 'shortcode' ) );
-		add_action( 'admin_menu',        array( &$this, 'admin_menu' ) );
-		add_action( 'admin_footer',      array( &$this, 'admin_js' ) );
+		add_shortcode( $this->shortcode,          array( &$this, 'shortcode' ) );
+		add_action( 'admin_menu',                 array( &$this, 'admin_menu' ) );
+		add_action( 'admin_print_footer_scripts', array( &$this, 'admin_js' ) );
 	}
 
 	function shortcode( $atts, $content = null ) {

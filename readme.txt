@@ -3,9 +3,9 @@ Contributors: coffee2code
 Donate link: http://coffee2code.com/donate
 Tags: custom fields, widget, widgets, shortcode, meta, extra, data, post, posts, page, pages, coffee2code
 Requires at least: 2.8
-Tested up to: 3.2.1
-Stable tag: 3.3.1
-Version: 3.3.1
+Tested up to: 3.3.1
+Stable tag: 3.3.2
+Version: 3.3.2
 
 Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
 
@@ -29,7 +29,7 @@ There are six template tags provided by this plugin.  Here they are, with an exp
 
 You can filter the custom field values that the plugin would display.  Add filters for '`the_meta`' to filter custom field data (see the end of the code file for commented out samples you may wish to include).  You can also add per-meta filters by hooking '`the_meta_$sanitized_field`'.  `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed.  So to filter the value of the "Related Posts" custom field, you would need to add a filter for '`the_meta_RelatedPosts`'.
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/get-custom-field-values/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/get-custom-field-values/) | [Plugin Directory Page](http://wordpress.org/extend/plugins/get-custom-field-values/) | [Author Homepage](http://coffee2code.com)
 
 
 == Screenshots ==
@@ -216,6 +216,15 @@ Examples:
 
 == Changelog ==
 
+= 3.3.2 =
+* Fix bugs in widget preventing proper display of custom field for current post (props [Ross Higgins](http://rosshiggins.com))
+* Trim and/or intval widget input fields in validate()
+* For shortcode widget's JS, output via 'admin_print_footer_scripts' instead of 'admin_footer'
+* Note compatibility through WP 3.3
+* Add 'Domain Path' directive to top of main plugin file
+* Add link to plugin directory page to readme.txt
+* Update copyright date (2012)
+
 = 3.3.1 =
 * Fix fatal shortcode bug by updating widget framework to v005 to make a protected class variable public
 * Update widget version to 003
@@ -317,6 +326,9 @@ the specified custom field.
 
 
 == Upgrade Notice ==
+
+= 3.3.2 =
+Recommended bugfix release. Highlights: fixed bug in widget preventing proper display of custom field for current post; noted compatibility through WP 3.3+.
 
 = 3.3.1 =
 Critical bugfix release (if using shortcode): fixed fatal shortcode bug
