@@ -1,35 +1,36 @@
 === Get Custom Field Values ===
 Contributors: coffee2code
-Donate link: http://coffee2code.com/donate
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6ARCFJ9TX3522
 Tags: custom fields, widget, widgets, shortcode, meta, extra, data, post, posts, page, pages, coffee2code
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Requires at least: 2.8
-Tested up to: 3.3.1
-Stable tag: 3.3.2
-Version: 3.3.2
+Tested up to: 3.8
+Stable tag: 3.5
 
 Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
 
 
 == Description ==
 
-Use widgets, shortcodes, and/or template tags to easily retrieve and display custom field values for posts or pages.
+This plugin provides a powerful widget, shortcode (with shortcode builder tool), and template tags for easily retrieving and displaying custom field values for posts or pages.
 
 The power of custom fields gives this plugin the potential to be dozens of plugins all rolled into one.
 
-This plugin allows you to harness the power of custom fields/meta data.  Use the "Get Custom Field" widget, the `[custom_field]` shortcode (which has a sidebar widget to help you build the shortcode), or one of six template tags to retrieve and display custom fields.  Find a custom field for the current post, a specified post, a recent post, or randomly.  And for the custom field values found by the plugin, you may optionally specify text or HTML to appear before and after the results.  If nothing is found, then nothing is display (unless you define text to appear when no results are found).  If multiple results are found, only the first will be displayed unless you specify a string to be used to join the results together (such as ","), in which case all will be returned.  Visit the Examples section to see how this plugin can be cast in dozens of different ways.
+This plugin allows you to harness the power of custom fields/meta data. Use the "Get Custom Field" widget, the `[custom_field]` shortcode (which has a post editor sidebar widget to help you build the shortcode), or one of six template tags to retrieve and display custom fields. Find a custom field for the current post, a specified post, a recent post, or randomly. And for the custom field values found by the plugin, you may optionally specify text or HTML to appear before and after the results. If nothing is found, then nothing is display (unless you define text to appear when no results are found). If multiple results are found, only the first will be displayed unless you specify a string to be used to join the results together (such as ","), in which case all will be returned. Visit the Examples section to see how this plugin can be cast in dozens of different ways.
 
-There are six template tags provided by this plugin.  Here they are, with an explanation of when they are appropriate for use:
+There are six template tags provided by this plugin. Here they are, with an explanation of when they are appropriate for use:
 
 * `c2c_get_custom()` : Use this inside "the loop" to retrieve a custom field value for a post
-* `c2c_get_current_custom()` : This is only available on the permalink post template (single.php) and page template (page.php).  Can be used inside or outside "the loop".  Useful for using custom field to define text you want to include on a post or page's header, footer, or sidebar.
+* `c2c_get_current_custom()` : This is only available on the permalink post template (single.php) and page template (page.php). Can be used inside or outside "the loop". Useful for using custom field to define text you want to include on a post or page's header, footer, or sidebar.
 * `c2c_get_post_custom()` : Useful when you know the ID of the post whose custom field value you want.
 * `c2c_get_random_custom()` : Retrieve the value of a random instance of the specified custom field key, as long as the field is associated with a published posted, non-passworded post (you can modify a setting in the plugin file to search passworded posts as well).
 * `c2c_get_random_post_custom()` : Retrieves the value of random custom field(s) from a post when you know the ID of the post you're interested in.
 * `c2c_get_recent_custom()` : Retrieves the most recent (according to the associated post's publish date) value of the specified custom field.
 
-You can filter the custom field values that the plugin would display.  Add filters for '`the_meta`' to filter custom field data (see the end of the code file for commented out samples you may wish to include).  You can also add per-meta filters by hooking '`the_meta_$sanitized_field`'.  `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed.  So to filter the value of the "Related Posts" custom field, you would need to add a filter for '`the_meta_RelatedPosts`'.
+You can filter the custom field values that the plugin would display. Add filters for '`the_meta`' to filter custom field data (see the end of the code file for commented out samples you may wish to include). You can also add per-meta filters by hooking '`the_meta_$sanitized_field`'. `$sanitized_field` is a clean version of the value of `$field` where everything but alphanumeric and underscore characters have been removed. So to filter the value of the "Related Posts" custom field, you would need to add a filter for '`the_meta_RelatedPosts`'.
 
-Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/get-custom-field-values/) | [Plugin Directory Page](http://wordpress.org/extend/plugins/get-custom-field-values/) | [Author Homepage](http://coffee2code.com)
+Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/get-custom-field-values/) | [Plugin Directory Page](http://wordpress.org/plugins/get-custom-field-values/) | [Author Homepage](http://coffee2code.com)
 
 
 == Screenshots ==
@@ -41,11 +42,11 @@ Links: [Plugin Homepage](http://coffee2code.com/wp-plugins/get-custom-field-valu
 == Installation ==
 
 1. Unzip `get-custom.zip` inside the `/wp-content/plugins/`  directory (or install via the built-in WordPress plugin installer)
-1. (optional) Add filters for 'the_meta' to filter custom field data (see the end of the plugin file for commented out samples you may wish to include).  And/or add per-meta filters by hooking 'the_meta_$field'
+1. (optional) Add filters for 'the_meta' to filter custom field data (see the end of the plugin file for commented out samples you may wish to include). And/or add per-meta filters by hooking 'the_meta_$field'
 1. Activate the plugin through the 'Plugins' admin menu in WordPress
 1. Give post(s) a custom field with a value.
 1. (optional) Go to the Appearance -> Widgets admin page to create one or more 'Get Custom Field' sidebar widgets for your widget-enabled theme.
-1. (optional) Use one of the six template functions provided by this plugin to retrieve the contents of custom fields.  You must 'echo' the result if you wish to display the value on your site.
+1. (optional) Use one of the six template functions provided by this plugin to retrieve the contents of custom fields. You must 'echo' the result if you wish to display the value on your site.
 
 
 == Frequently Asked Questions ==
@@ -69,11 +70,23 @@ Except for `c2c_get_custom()` (which is only available inside "the loop"), yes, 
 
 = I don't plan on using the shortcode builder when writing or editing a post or page, so how do I get rid of it? =
 
-When on the write or edit admin pages for a page or post, find the "Screen Options" link near the upper right-hand corner of the page.  Clicking it slides down a panel of options.  In the "Show on screen" section, uncheck the checkbox labeled "Get Custom Field Values - Shortcode".  This must be done separately for posts and for pages if you want the shortcode builder disabled for both sections.
+When on the write or edit admin pages for a page or post, find the "Screen Options" link near the upper right-hand corner of the page. Clicking it slides down a panel of options. In the "Show on screen" section, uncheck the checkbox labeled "Get Custom Field Values - Shortcode". This must be done separately for posts and for pages if you want the shortcode builder disabled for both sections.
+
+= I don't see the shortcode builder; where is it? =
+
+The shortcode builder/wizard is available in the admin when writing or editing a page or post. On the edit/create page, it'll be a sidebar widget (in this context, also known as a metabox) labeled "Get User Custom Field Values - Shortcode". If you don't see it there (which may be the case since it is hidden by default), find the "Screen Options" link near the upper righthand corner of the page. Clicking it slides down a panel of options. In the "Show on screen" section, check the checkbox labeled "Get Custom Field Values - Shortcode". This must be done separately for posts and for pages if you want the shortcode builder enabled for both sections.
 
 = Can I move the shortcode builder box because it is way down at the bottom of the right sidebar when I create/edit posts? =
 
-Yes, any of the boxes on the page when creating/editing posts can be rearranged by dragging and dropping the box name.  At the very top of the shortcode builder box the cursor will turn into a four-way array indicating you can click to drag that box.  You can move it under the post content box, or higher up on the right side.
+Yes, any of the boxes on the page when creating/editing posts can be rearranged by dragging and dropping the box name. At the very top of the shortcode builder box the cursor will turn into a four-way array indicating you can click to drag that box. You can move it under the post content box, or higher up on the right side.
+
+= Why didn't the shortcode get inserted into the editor after I clicked the "Send shortcode to editor" button? =
+
+Sometimes you have to ensure the text editor has focus. Click within the text editor and make sure the cursor is positioned at the location you want the shortcode to be inserted. Then click the button and the shortcode should get inserted there.
+
+= Does this plugin include unit tests? =
+
+Yes.
 
 
 == Template Tags ==
@@ -103,42 +116,42 @@ Template tag for use outside "the loop" and applies for custom fields regardless
 = Arguments =
 
 * `$post_id`
-Required argument (only used in `c2c_get_post_custom()`).  The ID of the post from which the custom field should be obtained.
+Required argument (only used in `c2c_get_post_custom()`). The ID of the post from which the custom field should be obtained.
 
 * `$field`
-Required argument.  The custom field key of interest.
+Required argument. The custom field key of interest.
 
 * `$before`
-Optional argument.  The text to display before all the custom field value(s), if any are present (defaults to '').
+Optional argument. The text to display before all the custom field value(s), if any are present (defaults to '').
 
 * `$after`
-Optional argument.  The text to display after all the custom field value(s), if any are present (defaults to '')
+Optional argument. The text to display after all the custom field value(s), if any are present (defaults to '')
 
 * `$none`
-Optional argument.  The text to display in place of the field value should no field values exist; if defined as '' and no field value exists, then nothing (including no `$before` and `$after`) gets displayed.
+Optional argument. The text to display in place of the field value should no field values exist; if defined as '' and no field value exists, then nothing (including no `$before` and `$after`) gets displayed.
 
 * `$between`
-Optional argument.  The text to display between multiple occurrences of the custom field; if defined as '', then only the first instance will be used.
+Optional argument. The text to display between multiple occurrences of the custom field; if defined as '', then only the first instance will be used.
 
 * `$before_last`
-Optional argument.  The text to display between the next-to-last and last items listed when multiple occurrences of the custom field; `$between` MUST be set to something other than '' for this to take effect.
+Optional argument. The text to display between the next-to-last and last items listed when multiple occurrences of the custom field; `$between` MUST be set to something other than '' for this to take effect.
 
 Arguments that only apply to `c2c_get_recent_custom()`:
 
 * `$limit`
-Optional argument.  The limit to the number of custom fields to retrieve. (also used by `c2c_get_random_custom` and `c2c_get_random_post_custom()`)
+Optional argument. The limit to the number of custom fields to retrieve. (also used by `c2c_get_random_custom` and `c2c_get_random_post_custom()`)
 
 * `$unique`
-Optional argument.  Boolean ('true' or 'false') to indicate if each custom field value in the results should be unique.
+Optional argument. Boolean ('true' or 'false') to indicate if each custom field value in the results should be unique.
 
 * `$order`
-Optional argument.  Indicates if the results should be sorted in chronological order ('ASC') (the earliest custom field value listed first), or reverse chronological order ('DESC') (the most recent custom field value listed first).
+Optional argument. Indicates if the results should be sorted in chronological order ('ASC') (the earliest custom field value listed first), or reverse chronological order ('DESC') (the most recent custom field value listed first).
 
 * `$include_pages`
-Optional argument.  Boolean ('true' or 'false') to indicate if pages should be included when retrieving recent custom values; default is 'true'.
+Optional argument. Boolean ('true' or 'false') to indicate if pages should be included when retrieving recent custom values; default is 'true'.
 
 * `$show_pass_post`
-Optional argument.  Boolean ('true' or 'false') to indicate if password protected posts should be included when retrieving recent custom values; default is 'false'.
+Optional argument. Boolean ('true' or 'false') to indicate if password protected posts should be included when retrieving recent custom values; default is 'false'.
 
 = Examples =
 
@@ -181,25 +194,27 @@ Optional argument.  Boolean ('true' or 'false') to indicate if password protecte
 
 == Shortcode ==
 
-This plugin provides one shortcode that can be used within the body of a post or page.  The shortcode is accompanied by a shortcode builder (see Screenshots) that presents a form for easily creating a shortcode.  However, here's the documentation for the shortcode and its supported attributes.
+This plugin provides one shortcode that can be used within the body of a post or page. The shortcode is accompanied by a shortcode builder (see Screenshots) that presents a form for easily creating a shortcode. However, here's the documentation for the shortcode and its supported attributes.
 
 The name of the shortcode can be changed via the filter 'c2c_get_custom_field_values_shortcode' (though making this customization is only recommended for before your first use of the shortcode, since changing to a new name will cause the shortcodes previously defined using the older name to no longer work).
 
 = custom_field =
 
-The only shortcode provided by this plugin is named `custom_field`.  It is a self-closing tag, meaning that it is not meant to encapsulate text.  Except for 'field', all attributes are optional, though you'll likely need to provide a couple to achieve your desired result.
+The only shortcode provided by this plugin is named `custom_field`. It is a self-closing tag, meaning that it is not meant to encapsulate text. Except for 'field', all attributes are optional, though you'll likely need to provide a couple to achieve your desired result.
 
 Attributes:
 
-* field : (string) The name of the custom field key whose value you wish to have displayed.
-* this_post : (boolean) Get the custom field value for the post containing this shortcode? Takes precedence over post_id attribute. Specify `1` (for true) or `0` for false. Default is `0`.
-* post_id : (integer) ID of post whose custom field's value you want to display. Leave blank to search for the custom field in any post. Use `0` to indicate it should only work on the permalink page for a page/post.
-* random : (boolean) Pick random value? Specify `1` (for true) or `0` for false. Default is `0`.
-* limit : (integer) The number of custom field items to list. Only applies if Post ID is empty and "Pick random value?" is unchecked. Use `0` to indicate no limit. Default is `0`.
-* before : (string) Text to display before the custom field.
-* after  : (string) Text to display after the custom field.
-* none : (string) Text to display if no matching custom field is found (or it has no value). Leave this blank if you don't want anything to display when no match is found.
-* between : (string) Text to display between custom field items if more than one are being shown. Default is ', '.
+* field       : (string) The name of the custom field key whose value you wish to have displayed.
+* id          : (string) The text to use as the 'id' attribute for a 'span' tag that wraps the output
+* class       : (string) The text to use as the 'class' attribute for a 'span' tag that wraps the output
+* this_post   : (boolean) Get the custom field value for the post containing this shortcode? Takes precedence over post_id attribute. Specify `1` (for true) or `0` for false. Default is `0`.
+* post_id     : (integer) ID of post whose custom field's value you want to display. Leave blank to search for the custom field in any post. Use `0` to indicate it should only work on the permalink page for a page/post.
+* random      : (boolean) Pick random value? Specify `1` (for true) or `0` for false. Default is `0`.
+* limit       : (integer) The number of custom field items to list. Only applies if Post ID is empty and "Pick random value?" is unchecked. Use `0` to indicate no limit. Default is `0`.
+* before      : (string) Text to display before the custom field.
+* after       : (string) Text to display after the custom field.
+* none        : (string) Text to display if no matching custom field is found (or it has no value). Leave this blank if you don't want anything to display when no match is found.
+* between     : (string) Text to display between custom field items if more than one are being shown. Default is ', '.
 * before_last : (string) Text to display between the second to last and last custom field items if more than one are being shown.
 
 Examples:
@@ -215,6 +230,46 @@ Examples:
 
 
 == Changelog ==
+
+= 3.5 (2014-01-17) =
+* Includes a significant number of changes from the unreleased v3.4
+* Hide shortcode wizard by default (won't change existing setting for users)
+* Show shortcode wizard for new posts as well
+* Cast all intended integer arguments as absint() instead of intval()
+* Update widget version to 006
+* Update widget framework to 008
+* Use explicit path for require_once()
+* Discontinue use of PHP4-style constructor
+* Minor documentation improvements
+* Minor code reformatting (spacing, bracing)
+* Note compatibility through WP 3.8+
+* Drop compatibility with version of WP older than 3.6
+* Update copyright date (2014)
+* Regenerate .pot
+* Change donate link
+* Update screenshots
+* Add banner
+
+= 3.4 (unreleased) =
+* Display shortcode wizard metabox for all post types
+* Add filter 'c2c_get_custom_field_values_post_types' to allow override of what post_types should get the shortcode wizard metabox
+* Add 'id' and 'class' as shortcode attributes to set same-named HTML attributes on 'span' tag
+* Wrap output in 'span' tag if either 'id' or 'class' shortcode attribute is defined
+* Shortcode wizard now omits 'between' and 'before_last' values if 'limit' was set to 1
+* Update widget version to 005
+* Update widget framework to 007
+* Return widget body content in widget_body() instead of echoing (to facilitate non-display of empty widgets)
+* Hook output of JS and creation of metaboxes to 'load-post.php', which eliminates use of pagenow
+* For class c2c_GetCustomFieldValuesShortcode, add register_post_page_hooks() and do_meta_box()
+* For class c2c_GetCustomFieldValuesShortcode, remove admin_menu()
+* Add checks to prevent execution of code if file is directly accessed
+* Re-license as GPLv2 or later (from X11)
+* Add 'License' and 'License URI' header tags to readme.txt and plugin file
+* Discontinue use of explicit pass-by-reference for objects
+* Remove ending PHP close tag
+* Note compatibility through WP 3.5+
+* Update copyright date (2013)
+* Move screenshots into repo's assets directory
 
 = 3.3.2 =
 * Fix bugs in widget preventing proper display of custom field for current post (props [Ross Higgins](http://rosshiggins.com))
@@ -326,6 +381,12 @@ the specified custom field.
 
 
 == Upgrade Notice ==
+
+= 3.5 =
+Recommended update: includes the unreleased changes in v3.4; added unit tests; noted compatibility through WP 3.8+
+
+= 3.4 =
+Recommended update: added 'id' and 'class' attributes for shortcode, and other shortcode improvements; noted compatibility through WP 3.5+; explicitly stated license
 
 = 3.3.2 =
 Recommended bugfix release. Highlights: fixed bug in widget preventing proper display of custom field for current post; noted compatibility through WP 3.3+.
